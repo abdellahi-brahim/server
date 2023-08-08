@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import Message, { IMessage } from '../models/Message';
-import getBotResponse from '../bot';
 
 export const postMessage = async (req: Request, res: Response) => {
     try {
@@ -11,7 +10,7 @@ export const postMessage = async (req: Request, res: Response) => {
         });
         await userMessage.save();
 
-        const botMessageContent = await getBotResponse(req.body.content);
+        const botMessageContent = "I'm a bot!"
         const botMessage: IMessage = new Message({
             content: botMessageContent,
             type: 'bot',
