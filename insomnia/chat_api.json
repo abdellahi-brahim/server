@@ -1,0 +1,54 @@
+{
+    "_type": "export",
+    "__export_format": 4,
+    "__export_date": "2023-08-08T00:00:00.000Z",
+    "__export_source": "insomnia.core",
+    "resources": [
+      {
+        "_id": "req_1234567890",
+        "parentId": "wrk_1234567890",
+        "_type": "request",
+        "name": "Post Message",
+        "method": "POST",
+        "url": "http://localhost:3000/api/message",
+        "body": {
+          "mimeType": "application/json",
+          "text": "{\n  \"content\": \"Hello!\"\n}"
+        },
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "settingDisableRenderRequestBody": false
+      },
+      {
+        "_id": "req_0987654321",
+        "parentId": "wrk_1234567890",
+        "_type": "request",
+        "name": "Get Chat History",
+        "method": "GET",
+        "url": "http://localhost:3000/api/chat",
+        "headers": [],
+        "settingDisableRenderRequestBody": false
+      },
+      {
+        "_id": "req_1122334455",
+        "parentId": "wrk_1234567890",
+        "_type": "request",
+        "name": "WebSocket Connection",
+        "method": "GET",
+        "url": "ws://localhost:3000",
+        "headers": [],
+        "settingDisableRenderRequestBody": false
+      },
+      {
+        "_id": "wrk_1234567890",
+        "_type": "workspace",
+        "name": "Chat API Workspace",
+        "description": "Workspace for testing the Chat API"
+      }
+    ]
+  }
+  

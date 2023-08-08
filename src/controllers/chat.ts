@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Message, { IMessage } from '../models/Message';
+import io from '../server';
 
 export const postMessage = async (req: Request, res: Response) => {
     try {
@@ -10,6 +11,8 @@ export const postMessage = async (req: Request, res: Response) => {
         });
         await userMessage.save();
 
+        io.emit('message', userMessage);
+
         const botMessageContent = "I'm a bot!"
         const botMessage: IMessage = new Message({
             content: botMessageContent,
@@ -17,6 +20,8 @@ export const postMessage = async (req: Request, res: Response) => {
             timestamp: new Date()
         });
         await botMessage.save();
+
+        io.emit('message', botMessage);
 
         res.status(200).json({ userMessage, botMessage });
     } catch (error) {

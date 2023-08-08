@@ -6,7 +6,7 @@ import app from './app';
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
-        origin: "*",  // Adjust this to your client's origin in production
+        origin: "*", // Allow all origins
         methods: ["GET", "POST"]
     }
 });
@@ -23,3 +23,5 @@ const PORT = process.env.PORT || 3000;
 httpServer.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+export default io;
