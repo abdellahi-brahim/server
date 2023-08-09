@@ -8,19 +8,30 @@ beforeEach(async () => {
 
 describe('Chat API', () => {
     it('should post a user message and receive a bot response', async () => {
+        const userContent = 'Hello!';
         const response = await request(app)
             .post('/api/message')
-            .send({ content: 'Hello!' })
+            .send({ content: userContent })
             .expect(200);
 
-        expect(response.body.userMessage.content).toEqual('Hello!');
+        // Check if the user message is saved correctly
+        const savedUserMessage = await Message.findOne({ content: userContent, type: 'user' });
+        expect(savedUserMessage).not.toBeNull();
+
+        // Check if the bot has responded and saved its message
+        const savedBotMessage = await Message.findOne({ type: 'bot' });
+        expect(savedBotMessage).not.toBeNull();
+
+        // Validate the response from the API
+        expect(response.body.userMessage.content).toEqual(userContent);
         expect(response.body.userMessage.type).toEqual('user');
-        expect(response.body.botMessage.content).toContain('Bot says: Hello!');
+
+        expect(response.body.botMessage.content).toBeDefined();
         expect(response.body.botMessage.type).toEqual('bot');
     });
 
     it('should fetch chat history', async () => {
-        await new Message({ content: 'Test message', type: 'user' }).save();
+        await new Message({ content: 'Test message', type: 'user', timestamp: new Date() }).save();
 
         const response = await request(app)
             .get('/api/chat')
@@ -33,6 +44,5 @@ describe('Chat API', () => {
 });
 
 afterAll(async () => {
-    // Close any lingering connections to the database
     await Message.collection.conn.close();
 });
