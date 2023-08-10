@@ -14,7 +14,11 @@ export const postMessage = async (req: Request, res: Response) => {
 
         io.emit('message', userMessage);
 
+        io.emit('typing');
+
         const botMessageContent = await getBotMessage(req.body.content);
+
+        io.emit('stop_typing');
 
         const botMessage: IMessage = new Message({
             content: botMessageContent,
@@ -28,6 +32,7 @@ export const postMessage = async (req: Request, res: Response) => {
 
         res.status(200).json({ userMessage, botMessage });
     } catch (error) {
+        io.emit('stop_typing');
         res.status(500).json({ error: 'Failed to send message.' });
     }
 };
