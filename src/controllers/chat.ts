@@ -13,7 +13,7 @@ export const postMessage = async (req: Request, res: Response) => {
 
         io.emit('message', userMessage);
 
-        const botMessageContent = "I'm a bot!"
+        const botMessageContent = "I'm groot!"
         const botMessage: IMessage = new Message({
             content: botMessageContent,
             type: 'bot',
