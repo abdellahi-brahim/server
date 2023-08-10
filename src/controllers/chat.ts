@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Message, { IMessage } from '../models/Message';
 import io from '../server';
+import { getBotMessage } from '../services/gpt-3-bot';
 
 export const postMessage = async (req: Request, res: Response) => {
     try {
@@ -13,12 +14,14 @@ export const postMessage = async (req: Request, res: Response) => {
 
         io.emit('message', userMessage);
 
-        const botMessageContent = "I'm groot!"
+        const botMessageContent = await getBotMessage(req.body.content);
+
         const botMessage: IMessage = new Message({
             content: botMessageContent,
             type: 'bot',
             timestamp: new Date()
         });
+        
         await botMessage.save();
 
         io.emit('message', botMessage);
