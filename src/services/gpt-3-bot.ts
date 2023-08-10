@@ -10,7 +10,7 @@ export async function getBotMessage(text: string): Promise<string> {
     });
     const openai = new OpenAIApi(configuration);
 
-    const message_history = await Message.find().sort('timestamp');
+    const message_history = await Message.find().sort('-timestamp').limit(10);
 
     const messages = message_history.map(message => {
       return {
@@ -28,6 +28,8 @@ export async function getBotMessage(text: string): Promise<string> {
       model: "gpt-3.5-turbo",
       messages: messages,
     });
+
+    console.log('completion', completion);
 
     const content = completion?.data?.choices?.[0]?.message?.content;
 
